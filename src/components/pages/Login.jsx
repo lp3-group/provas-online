@@ -33,7 +33,7 @@ function LoginForm() {
   }
 
   return (
-    <Form ref={formEl} className="col-lg-2" onSubmit={handleForm}>
+    <Form ref={formEl} className="col-sm-4" onSubmit={handleForm}>
       <Form.Group className="mb-4" controlId="nomeUsuario">
         <Form.Label>Nome de usuário</Form.Label>
         <Form.Control type="text" placeholder="Digite seu nome de usuário" name="nomeUsuario" required />
