@@ -24,7 +24,11 @@ function LoginForm({ setErrorAlert }) {
 
       setUsuario(data);
 
-      navigate(data.primeiroAcesso ? '/alterarSenha' : '/');
+      navigate(data.primeiroAcesso ? '/alterarSenha' : '/', {
+        state: {
+          tipoUsuario: data.tipoUsuario
+        }
+      });
     }
 
     if (status === 'error') {
