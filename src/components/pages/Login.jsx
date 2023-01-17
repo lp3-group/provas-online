@@ -1,14 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Alert } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useLogin from '../../hooks/api/useLogin';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import httpStatus from '../../utils/httpStatus';
 import transformarFormEmObjeto from '../../utils/transformarFormEmObjeto';
 import Container from '../layout/Container';
 
-function LoginForm() {
+function LoginForm({ setErrorAlert }) {
   const navigate = useNavigate();
   const formEl = useRef();
 
@@ -18,9 +20,17 @@ function LoginForm() {
 
   useEffect(() => {
     if (status === 'success') {
-      setUsuario(result);
+      const { data } = result;
 
-      navigate(result.primeiroAcesso ? '/alterarSenha' : '/');
+      setUsuario(data);
+
+      navigate(data.primeiroAcesso ? '/alterarSenha' : '/');
+    }
+
+    if (status === 'error') {
+      if (error.response && error.response.status === httpStatus.UNAUTHORIZED) {
+        setErrorAlert({ show: true, message: 'Usuário e/ou senha incorretos! Por favor, tente novamente! ' });
+      }
     }
   }, [status]);
 
@@ -32,18 +42,22 @@ function LoginForm() {
     login(dados);
   }
 
+  function isLoading() {
+    return status === 'pending';
+  }
+
   return (
     <Form ref={formEl} className="col-sm-4" onSubmit={handleForm}>
       <Form.Group className="mb-4" controlId="nomeUsuario">
         <Form.Label>Nome de usuário</Form.Label>
-        <Form.Control type="text" placeholder="Digite seu nome de usuário" name="nomeUsuario" required />
+        <Form.Control isInvalid={error && error.response} type="text" placeholder="Digite seu nome de usuário" disabled={isLoading()} name="nomeUsuario" required />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="senha">
         <Form.Label>Senha</Form.Label>
-        <Form.Control type="password" placeholder="Digite sua senha" name="senha" required />
+        <Form.Control isInvalid={error && error.response} type="password" placeholder="Digite sua senha" name="senha" disabled={isLoading()} required />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" disabled={isLoading()}>
         Entrar
       </Button>
     </Form>
@@ -51,6 +65,8 @@ function LoginForm() {
 }
 
 function Login() {
+  const [errorAlert, setErrorAlert] = useState(null);
+
   useEffect(() => {
     document.title = 'Provas online - Login';
   }, []);
@@ -60,7 +76,14 @@ function Login() {
       <Title>
         Login
       </Title>
-      <LoginForm />
+      {
+        errorAlert !== null ?
+          <Alert variant="danger" className="col-sm-4" onClose={() => setErrorAlert(null)} dismissible>
+            {errorAlert.message || 'Ocorreu um erro ao realizar esta operação!'}
+          </Alert>
+          : null
+      }
+      <LoginForm setErrorAlert={setErrorAlert} />
     </Container>
   );
 }
