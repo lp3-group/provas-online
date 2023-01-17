@@ -7,3 +7,15 @@ export async function login({ nomeUsuario, senha }) {
 
   return { data, status };
 }
+
+export async function alterarSenha({ senha, confirmaSenha, token }) {
+  const { data, status } = await api.put('/auth/alterarSenha', {
+    senha, confirmaSenha
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
