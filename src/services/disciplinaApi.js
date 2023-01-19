@@ -9,3 +9,13 @@ export async function pegarDisciplinas({ token }) {
 
   return { data, status };
 }
+
+export async function criarDisciplina({ nome, token }) {
+  const { data, status } = await api.post('/disciplinas', { nome }, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
