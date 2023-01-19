@@ -19,3 +19,14 @@ export async function criarDisciplina({ nome, token }) {
 
   return { data, status };
 }
+
+
+export async function excluirDisciplina({ disciplinaId, token }) {
+  const { data, status } = await api.delete(`/disciplinas/${disciplinaId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
