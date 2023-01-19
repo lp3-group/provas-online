@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import UsuarioContext from '../../contexts/UsuarioContext';
 import useLogin from '../../hooks/api/useLogin';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import httpStatus from '../../utils/httpStatus';
@@ -14,9 +15,13 @@ function LoginForm({ setErrorAlert }) {
   const navigate = useNavigate();
   const formEl = useRef();
 
-  const [usuario, setUsuario] = useLocalStorage('usuario', null);
+  const { setUsuario } = useContext(UsuarioContext);
 
   const { login, error, result, status } = useLogin();
+
+  useEffect(() => {
+    setUsuario(null);
+  }, []);
 
   useEffect(() => {
     if (status === 'success') {

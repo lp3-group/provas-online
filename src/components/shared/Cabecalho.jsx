@@ -1,13 +1,14 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import useLocalStorage from "../../hooks/useLocalStorage";
+import UsuarioContext from '../../contexts/UsuarioContext';
 
 function Cabecalho() {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const [usuario] = useLocalStorage("usuario", null);
+  const { usuario, setUsuario } = useContext(UsuarioContext);
 
   useEffect(() => {
     document.title = "Provas online";
@@ -40,7 +41,7 @@ function Cabecalho() {
             }
 
             <Nav.Link>
-              <LinkEstilizado>Sair</LinkEstilizado>
+              <LinkEstilizado to="/login">Sair</LinkEstilizado>
             </Nav.Link>
           </Nav>
 
