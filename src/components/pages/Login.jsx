@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UsuarioContext from '../../contexts/UsuarioContext';
 import useLogin from '../../hooks/api/useLogin';
-import useLocalStorage from '../../hooks/useLocalStorage';
 import httpStatus from '../../utils/httpStatus';
 import transformarFormEmObjeto from '../../utils/transformarFormEmObjeto';
 import Container from '../layout/Container';
