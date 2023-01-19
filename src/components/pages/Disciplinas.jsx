@@ -7,11 +7,14 @@ import transformarFormEmObjeto from '../../utils/transformarFormEmObjeto';
 import UsuarioContext from '../../contexts/UsuarioContext';
 import { useNavigate } from 'react-router-dom';
 import httpStatus from '../../utils/httpStatus';
+import useExcluirDisciplina from '../../hooks/api/useExcluirDisciplina';
 
 function Disciplinas() {
   const navigate = useNavigate();
 
   const [mostrarModalCadastro, setMostrarModalCadastro] = useState(false);
+  const [mostrarModalExcluir, setMostrarModalExcluir] = useState(false);
+  const [idDisciplinaExcluir, setIdDisciplinaExcluir] = useState(null);
 
   const { error, pegarDisciplinas, result, status } = usePegarDisciplinas();
 
@@ -28,6 +31,11 @@ function Disciplinas() {
       }
     }
   }, [status]);
+
+  function excluirDisciplina(disciplinaId) {
+    setIdDisciplinaExcluir(disciplinaId);
+    setMostrarModalExcluir(true);
+  }
 
   return (result && result.data) && (
     <>
@@ -58,7 +66,7 @@ function Disciplinas() {
                   <td className='col-sm-9'>{disciplina.nome}</td>
                   <td className='col-sm-2 text-center'>
                     <Button variant="secondary">Editar</Button>
-                    <Button variant="danger" className="ms-2">Excluir</Button>
+                    <Button variant="danger" className="ms-2" onClick={() => excluirDisciplina(disciplina.id)}>Excluir</Button>
                   </td>
                 </tr>
               );
@@ -78,7 +86,66 @@ function Disciplinas() {
         onHide={() => setMostrarModalCadastro(false)}
         pegarDisciplinas={pegarDisciplinas}
       />
+
+      <ModalExcluir
+        show={mostrarModalExcluir}
+        onHide={() => setMostrarModalExcluir(false)}
+        idDisciplina={idDisciplinaExcluir}
+        pegarDisciplinas={pegarDisciplinas}
+      />
     </>
+  );
+}
+
+function ModalExcluir({ onHide, pegarDisciplinas, idDisciplina, show }) {
+  const { usuario } = useContext(UsuarioContext);
+
+  const { error, status, excluirDisciplina: excluir } = useExcluirDisciplina();
+
+  useEffect(() => {
+    if (status === 'success') {
+      onHide();
+      pegarDisciplinas({ token: usuario.token });
+    }
+
+    if (status === 'error') {
+      if (error.response && error.response.status === httpStatus.FORBIDDEN) {
+        navigate('/login');
+      }
+    }
+  }, [status]);
+
+  function excluirDisciplina() {
+    excluir({ disciplinaId: idDisciplina, token: usuario.token });
+  }
+
+  function isLoading() {
+    return status === 'pending';
+  }
+
+  return (
+    <Modal
+      show={show}
+      onHide={onHide}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Excluir disciplina
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        Deseja mesmo excluir esta disciplina?
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>Cancelar</Button>
+        <Button variant="danger" disabled={isLoading()} onClick={excluirDisciplina}>
+          Excluir
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
