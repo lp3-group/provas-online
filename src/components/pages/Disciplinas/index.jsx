@@ -1,13 +1,13 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Table, Container, Modal, Form } from 'react-bootstrap';
-import usePegarDisciplinas from '../../hooks/api/usePegarDisciplinas';
-import useCriarDisciplina from '../../hooks/api/useCriarDisciplina';
+import usePegarDisciplinas from '../../../hooks/api/usePegarDisciplinas';
+import useCriarDisciplina from '../../../hooks/api/useCriarDisciplina';
 import styled from 'styled-components';
-import transformarFormEmObjeto from '../../utils/transformarFormEmObjeto';
-import UsuarioContext from '../../contexts/UsuarioContext';
+import transformarFormEmObjeto from '../../../utils/transformarFormEmObjeto';
+import UsuarioContext from '../../../contexts/UsuarioContext';
 import { useNavigate } from 'react-router-dom';
-import httpStatus from '../../utils/httpStatus';
-import useExcluirDisciplina from '../../hooks/api/useExcluirDisciplina';
+import httpStatus from '../../../utils/httpStatus';
+import useExcluirDisciplina from '../../../hooks/api/useExcluirDisciplina';
 
 function Disciplinas() {
   const navigate = useNavigate();
