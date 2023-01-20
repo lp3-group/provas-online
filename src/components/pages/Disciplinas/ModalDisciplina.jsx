@@ -12,7 +12,7 @@ function ModalDisciplina({
   submitFormButtonLabel = "Cadastrar",
   successCallback,
   formActionType = "create",
-  disciplineData: { nome, id } = { nome: null, id: null }
+  disciplineData: { nome, id } = { nome: '', id: null }
 }) {
   const { usuario } = useContext(UsuarioContext);
 
