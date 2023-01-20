@@ -85,7 +85,15 @@ function ModalDisciplina({
         <Form onSubmit={(event) => event.preventDefault()}>
           <Form.Group className="mb-3" controlId="formBasicNome">
             <Form.Label>Nome:</Form.Label>
-            <Form.Control isInvalid={validationError !== null} onChange={handleChange} value={form.nome} disabled={isLoading()} name="nome" type="text" placeholder="Digite o nome da disciplina" />
+            <Form.Control
+              isInvalid={validationError !== null}
+              onChange={handleChange}
+              value={form.nome}
+              disabled={isLoading()}
+              name="nome"
+              type="text"
+              placeholder="Digite o nome da disciplina"
+            />
             <Form.Control.Feedback type="invalid">
               {validationError && validationError.message}
             </Form.Control.Feedback>
