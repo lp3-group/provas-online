@@ -1,20 +1,20 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import { Button, Table, Container, Modal, Form } from 'react-bootstrap';
+import { useContext, useEffect, useState } from 'react';
+import { Button, Table, Container } from 'react-bootstrap';
 import usePegarDisciplinas from '../../../hooks/api/usePegarDisciplinas';
-import useCriarDisciplina from '../../../hooks/api/useCriarDisciplina';
 import styled from 'styled-components';
-import transformarFormEmObjeto from '../../../utils/transformarFormEmObjeto';
 import UsuarioContext from '../../../contexts/UsuarioContext';
 import { useNavigate } from 'react-router-dom';
 import httpStatus from '../../../utils/httpStatus';
-import useExcluirDisciplina from '../../../hooks/api/useExcluirDisciplina';
+import ModalDisciplina from './ModalDisciplina';
+import ModalExcluir from './ModalExcluir';
 
 function Disciplinas() {
   const navigate = useNavigate();
 
   const [mostrarModalCadastro, setMostrarModalCadastro] = useState(false);
   const [mostrarModalExcluir, setMostrarModalExcluir] = useState(false);
-  const [idDisciplinaExcluir, setIdDisciplinaExcluir] = useState(null);
+  const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
+  const [selectedDiscipline, setSelectedDiscipline] = useState({ id: null, nome: '' });
 
   const { error, pegarDisciplinas, result, status } = usePegarDisciplinas();
 
@@ -32,9 +32,14 @@ function Disciplinas() {
     }
   }, [status]);
 
-  function excluirDisciplina(disciplinaId) {
-    setIdDisciplinaExcluir(disciplinaId);
+  function excluirDisciplina(disciplina) {
+    setSelectedDiscipline(disciplina);
     setMostrarModalExcluir(true);
+  }
+
+  function editarDisciplina(disciplina) {
+    setSelectedDiscipline(disciplina);
+    setMostrarModalEditar(true);
   }
 
   return (result && result.data) && (
@@ -65,8 +70,8 @@ function Disciplinas() {
                   <td className='col-sm-1'>{indice + 1}</td>
                   <td className='col-sm-9'>{disciplina.nome}</td>
                   <td className='col-sm-2 text-center'>
-                    <Button variant="secondary">Editar</Button>
-                    <Button variant="danger" className="ms-2" onClick={() => excluirDisciplina(disciplina.id)}>Excluir</Button>
+                    <Button variant="secondary" onClick={() => editarDisciplina(disciplina)}>Editar</Button>
+                    <Button variant="danger" className="ms-2" onClick={() => excluirDisciplina(disciplina)}>Excluir</Button>
                   </td>
                 </tr>
               );
@@ -81,131 +86,32 @@ function Disciplinas() {
         </Table>
       </Container>
 
-      <ModalCadastro
+      <ModalDisciplina
         show={mostrarModalCadastro}
         onHide={() => setMostrarModalCadastro(false)}
-        pegarDisciplinas={pegarDisciplinas}
+        modalTitle="Cadastrar disciplina"
+        formActionType="create"
+        submitFormButtonLabel="Cadastrar"
+        successCallback={() => pegarDisciplinas({ token: usuario.token })}
+      />
+
+      <ModalDisciplina
+        show={mostrarModalEditar}
+        onHide={() => setMostrarModalEditar(false)}
+        modalTitle="Editar disciplina"
+        formActionType="update"
+        submitFormButtonLabel="Salvar"
+        successCallback={() => pegarDisciplinas({ token: usuario.token })}
+        disciplineData={selectedDiscipline}
       />
 
       <ModalExcluir
         show={mostrarModalExcluir}
         onHide={() => setMostrarModalExcluir(false)}
-        idDisciplina={idDisciplinaExcluir}
+        idDisciplina={selectedDiscipline.id}
         pegarDisciplinas={pegarDisciplinas}
       />
     </>
-  );
-}
-
-function ModalExcluir({ onHide, pegarDisciplinas, idDisciplina, show }) {
-  const { usuario } = useContext(UsuarioContext);
-
-  const { error, status, excluirDisciplina: excluir } = useExcluirDisciplina();
-
-  useEffect(() => {
-    if (status === 'success') {
-      onHide();
-      pegarDisciplinas({ token: usuario.token });
-    }
-
-    if (status === 'error') {
-      if (error.response && error.response.status === httpStatus.FORBIDDEN) {
-        navigate('/login');
-      }
-    }
-  }, [status]);
-
-  function excluirDisciplina() {
-    excluir({ disciplinaId: idDisciplina, token: usuario.token });
-  }
-
-  function isLoading() {
-    return status === 'pending';
-  }
-
-  return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Excluir disciplina
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        Deseja mesmo excluir esta disciplina?
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>Cancelar</Button>
-        <Button variant="danger" disabled={isLoading()} onClick={excluirDisciplina}>
-          Excluir
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
-function ModalCadastro(props) {
-  const formEl = useRef();
-
-  const { usuario } = useContext(UsuarioContext);
-
-  const { criarDisciplina, error, status } = useCriarDisciplina();
-
-  useEffect(() => {
-    if (status === 'success') {
-      props.onHide();
-      props.pegarDisciplinas({ token: usuario.token });
-    }
-
-    if (status === 'error') {
-      if (error.response && error.response.status === httpStatus.FORBIDDEN) {
-        navigate('/login');
-      }
-    }
-  }, [status]);
-
-  function enviarFormulario() {
-    const { nome } = transformarFormEmObjeto(formEl)
-
-    criarDisciplina({ nome, token: usuario.token });
-  }
-
-  function isLoading() {
-    return status === 'pending';
-  }
-
-  return (
-    <Modal
-      {...props}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Cadastrar disciplina
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form ref={formEl}>
-          <Form.Group className="mb-3" controlId="formBasicNome">
-            <Form.Label>Nome:</Form.Label>
-            <Form.Control disabled={isLoading()} name="nome" type="text" placeholder="Digite o nome da disciplina" />
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={props.onHide}>Cancelar</Button>
-        <Button variant="primary" disabled={isLoading()} onClick={enviarFormulario}>
-          Cadastrar
-        </Button>
-      </Modal.Footer>
-    </Modal>
   );
 }
 
