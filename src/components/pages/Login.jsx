@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import UsuarioContext from '../../contexts/UsuarioContext';
 import useLogin from '../../hooks/api/useLogin';
 import httpStatus from '../../utils/httpStatus';
-import transformarFormEmObjeto from '../../utils/transformarFormEmObjeto';
+import transformFormToObject from '../../utils/transformFormToObject';
 import Container from '../layout/Container';
 
 function LoginForm({ setErrorAlert }) {
@@ -45,7 +45,7 @@ function LoginForm({ setErrorAlert }) {
   function handleForm(event) {
     event.preventDefault();
 
-    const dados = transformarFormEmObjeto(formEl);
+    const dados = transformFormToObject(formEl);
 
     login(dados);
   }
