@@ -866,6 +866,178 @@
       "targets": [],
       "value": ""
     }]
+  }, {
+    "id": "39fb467d-0402-4d49-8897-8deb7156d861",
+    "name": "testaEditarDisciplina",
+    "commands": [{
+      "id": "c97449b1-f841-48c1-9da1-53c3c767405f",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:5173/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0c282a59-44d9-4bcb-b811-af333a692f31",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1050x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f099acb3-591a-40e9-bb7c-d10e08af6382",
+      "comment": "",
+      "command": "click",
+      "target": "id=nomeUsuario",
+      "targets": [
+        ["id=nomeUsuario", "id"],
+        ["name=nomeUsuario", "name"],
+        ["css=#nomeUsuario", "css:finder"],
+        ["xpath=//input[@id='nomeUsuario']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "004e595d-685b-402a-9ce4-9968f81dc494",
+      "comment": "",
+      "command": "type",
+      "target": "id=nomeUsuario",
+      "targets": [
+        ["id=nomeUsuario", "id"],
+        ["name=nomeUsuario", "name"],
+        ["css=#nomeUsuario", "css:finder"],
+        ["xpath=//input[@id='nomeUsuario']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin"
+    }, {
+      "id": "b277bb9c-76d6-4554-b097-2bdef2709749",
+      "comment": "",
+      "command": "type",
+      "target": "id=senha",
+      "targets": [
+        ["id=senha", "id"],
+        ["name=senha", "name"],
+        ["css=#senha", "css:finder"],
+        ["xpath=//input[@id='senha']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/form/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "123456"
+    }, {
+      "id": "ea48e0af-cbf9-448d-8bda-f257ab55dd1b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.col-sm-4",
+      "targets": [
+        ["css=.col-sm-4", "css:finder"],
+        ["xpath=//div[@id='root']/div/form", "xpath:idRelative"],
+        ["xpath=//form", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "66c2dfc8-9c82-4ab8-9c41-cefa087bc268",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/form/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Entrar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "05c11174-d018-410e-99a7-5f43f6cd60d4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.nav-link:nth-child(1) > .sc-hLBbgP",
+      "targets": [
+        ["css=.nav-link:nth-child(1) > .sc-hLBbgP", "css:finder"],
+        ["xpath=//a[contains(text(),'Disciplinas')]", "xpath:link"],
+        ["xpath=//div[@id='root']/nav/div/div/a/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/disciplinas')]", "xpath:href"],
+        ["xpath=//a/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "14d13f3a-f1e1-4d65-824f-4a79cf354a7f",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-secondary",
+      "targets": [
+        ["css=.btn-secondary", "css:finder"],
+        ["xpath=(//button[@type='button'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/table/tbody/tr/td[3]/button", "xpath:idRelative"],
+        ["xpath=//td[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Editar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bbe7675a-9a23-4a24-aff7-73e7003f7d00",
+      "comment": "",
+      "command": "click",
+      "target": "id=formBasicNome",
+      "targets": [
+        ["id=formBasicNome", "id"],
+        ["name=nome", "name"],
+        ["css=#formBasicNome", "css:finder"],
+        ["xpath=//input[@id='formBasicNome']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d404d5d2-69ff-467b-9eaf-494275c5e009",
+      "comment": "",
+      "command": "type",
+      "target": "id=formBasicNome",
+      "targets": [
+        ["id=formBasicNome", "id"],
+        ["name=nome", "name"],
+        ["css=#formBasicNome", "css:finder"],
+        ["xpath=//input[@id='formBasicNome']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "disciplina teste2"
+    }, {
+      "id": "292ee135-a1ea-4151-97cd-91c3617332f9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary:nth-child(2)",
+      "targets": [
+        ["css=.btn-primary:nth-child(2)", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[3]/button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'Salvar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "09f82cc8-8be7-425e-9f64-18a7f07cb85b",
+      "comment": "",
+      "command": "click",
+      "target": "css=tbody .col-sm-9",
+      "targets": [
+        ["css=tbody .col-sm-9", "css:finder"],
+        ["xpath=//div[@id='root']/div/table/tbody/tr/td[2]", "xpath:idRelative"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'disciplina teste2')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f46c9901-ad74-4beb-8b03-e7660d9a2f90",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=tbody .col-sm-9",
+      "targets": [
+        ["css=tbody .col-sm-9", "css:finder"],
+        ["xpath=//div[@id='root']/div/table/tbody/tr/td[2]", "xpath:idRelative"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'disciplina teste2')]", "xpath:innerText"]
+      ],
+      "value": "disciplina teste2"
+    }]
   }],
   "suites": [{
     "id": "ca22ae9e-0b77-4a9e-8195-2d7659d80c59",
@@ -880,7 +1052,7 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["3ad4ec04-5729-4c17-b2c0-88a9678424e3", "2e7ff3d6-89c0-498e-afae-c864532cae42", "7e970677-4ea4-49af-90d7-9e994ff4118b"]
+    "tests": ["3ad4ec04-5729-4c17-b2c0-88a9678424e3", "2e7ff3d6-89c0-498e-afae-c864532cae42", "39fb467d-0402-4d49-8897-8deb7156d861", "7e970677-4ea4-49af-90d7-9e994ff4118b"]
   }],
   "urls": ["http://localhost:5173/", "http://localhost:5173/login"],
   "plugins": []
