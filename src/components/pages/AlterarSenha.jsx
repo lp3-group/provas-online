@@ -3,7 +3,7 @@ import { Alert } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import transformarFormEmObjeto from '../../utils/transformarFormEmObjeto';
+import transformFormToObject from '../../utils/transformFormToObject';
 import Container from '../layout/Container';
 import useAlterarSenha from '../../hooks/api/useAlterarSenha';
 import useLocalStorage from '../../hooks/useLocalStorage';
@@ -31,7 +31,7 @@ function AlterarSenhaForm() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const dados = transformarFormEmObjeto(formEl);
+    const dados = transformFormToObject(formEl);
 
     if (dados.senha !== dados.confirmaSenha) {
       setSenhasInvalidas(true);
