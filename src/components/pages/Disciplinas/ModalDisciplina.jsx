@@ -19,6 +19,7 @@ function ModalDisciplina({
   const action = isCreateActionType() ? useCriarDisciplina() : useEditarDisciplina();
 
   const [form, setForm] = useState({ nome });
+  const [validationError, setValidationError] = useState(null);
 
   useEffect(() => {
     if (action.status === 'success') {
@@ -27,8 +28,16 @@ function ModalDisciplina({
     }
 
     if (action.status === 'error') {
-      if (action.error.response && action.error.response.status === httpStatus.FORBIDDEN) {
+      if(!action.error.response) {
+        console.log(action.error);
+      }
+
+      if (action.error.response.status === httpStatus.FORBIDDEN) {
         navigate('/login');
+      }
+
+      if(action.error.response.status === httpStatus.CONFLICT) {
+        setValidationError({ errorType: 'conflict', message: 'Já existe uma disciplina com este nome!' });
       }
     }
   }, [action.status]);
@@ -52,6 +61,10 @@ function ModalDisciplina({
   }
 
   function handleChange(event) {
+    if(validationError !== null) {
+      setValidationError(null);
+    }
+
     setForm({ nome: event.target.value });
   }
 
@@ -71,7 +84,10 @@ function ModalDisciplina({
         <Form onSubmit={(event) => event.preventDefault()}>
           <Form.Group className="mb-3" controlId="formBasicNome">
             <Form.Label>Nome:</Form.Label>
-            <Form.Control onChange={handleChange} value={form.nome} disabled={isLoading()} name="nome" type="text" placeholder="Digite o nome da disciplina" />
+            <Form.Control isInvalid={validationError !== null} onChange={handleChange} value={form.nome} disabled={isLoading()} name="nome" type="text" placeholder="Digite o nome da disciplina" />
+            <Form.Control.Feedback type="invalid">
+              {validationError && validationError.message}
+            </Form.Control.Feedback>
           </Form.Group>
         </Form>
       </Modal.Body>
