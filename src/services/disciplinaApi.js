@@ -30,3 +30,13 @@ export async function excluirDisciplina({ disciplinaId, token }) {
 
   return { data, status };
 }
+
+export async function editarDisciplina({ disciplinaId, nome, token }) {
+  const { data, status } = await api.put(`/disciplinas/${disciplinaId}`, { nome }, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
