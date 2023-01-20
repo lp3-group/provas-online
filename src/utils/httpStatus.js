@@ -1,4 +1,5 @@
 export default {
   UNAUTHORIZED: 401,
-  FORBIDDEN: 403
+  FORBIDDEN: 403,
+  CONFLICT: 409
 };
