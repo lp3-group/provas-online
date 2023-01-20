@@ -71,6 +71,7 @@ function ModalDisciplina({
   return (
     <Modal
       show={show}
+      onHide={onHide}
       size="sm"
       aria-labelledby="contained-modal-title-vcenter"
       centered
