@@ -45,7 +45,8 @@ function FormProva() {
   }, []);
 
   useEffect(() => {
-    if((status === "error" || statusCriarProva === "error") && forbiddenError(status === "error" ? error : errorCriarProva)) {
+    if((status === "error" && forbiddenError(status, error)) ||
+    statusCriarProva === "error" && forbiddenError(statusCriarProva, errorCriarProva)) {
       navigate('/login');
     }
 
@@ -54,8 +55,8 @@ function FormProva() {
     }
   }, [status, statusCriarProva]);
 
-  function forbiddenError(status) {
-    return status === "error" && error.response && error.response.status === httpStatus.FORBIDDEN;
+  function forbiddenError(status, err) {
+    return status === "error" && err.response && err.response.status === httpStatus.FORBIDDEN;
   }
 
   function buildDisciplineOptions() {
