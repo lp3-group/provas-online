@@ -24,3 +24,13 @@ export async function pegarProvas({ token }) {
 
   return { data, status };
 }
+
+export async function excluirProva({ provaId, token }) {
+  const { data, status } = await api.delete(`/provas/${provaId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
