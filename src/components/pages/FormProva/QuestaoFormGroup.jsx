@@ -6,7 +6,7 @@ import QuestionContext from '../../../contexts/QuestionContext';
 import ProvaItemContainer from '../../layout/ProvaItemContainer';
 import AlternativaFormGroup from './AlternativaFormGroup';
 
-function ProvaFormGroup({ index }) {
+function QuestaoFormGroup({ index }) {
   const { form, setForm } = useContext(QuestionContext);
 
   function buildAlternativesFields(questionIndex) {
@@ -68,7 +68,7 @@ function ProvaFormGroup({ index }) {
       <Accordion.Item key={index} style={{ width: '100%' }} eventKey={`${index}`}>
         <Accordion.Header>Questão {index+1}</Accordion.Header>
         <Accordion.Body>
-          <Form.Group className="mb-3" controlId={`titulo-questao-${index+1}`} hasValidation>
+          <Form.Group className="mb-3" controlId={`titulo-questao-${index+1}`}>
             <Form.Label>Texto da questão:</Form.Label>
             <Form.Control value={form.questoes[index].texto} name="texto" required onChange={(event) => handleQuestion(event, index)} as="textarea" rows={3} />
           </Form.Group>
@@ -98,7 +98,7 @@ function ProvaFormGroup({ index }) {
   );
 }
 
-export default ProvaFormGroup;
+export default QuestaoFormGroup;
 
 const DeleteButton = styled.button`
   background-color: transparent;
