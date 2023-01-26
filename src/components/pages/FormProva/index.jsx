@@ -55,6 +55,10 @@ function FormProva() {
     }
   }, [status, statusCriarProva]);
 
+  function conflictError(status, err) {
+    return status === "error" && err.response && err.response.status === httpStatus.CONFLICT;
+  }
+
   function forbiddenError(status, err) {
     return status === "error" && err.response && err.response.status === httpStatus.FORBIDDEN;
   }
@@ -131,9 +135,12 @@ function FormProva() {
         </TituloPaginaContainer>
 
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="titulo">
+          <Form.Group className="mb-3" controlId="titulo" hasValidation>
             <Form.Label>Título:</Form.Label>
-            <Form.Control value={form.titulo} onChange={handleForm} name="titulo" type="text" required placeholder="Digite o título da prova" />
+            <Form.Control value={form.titulo} onChange={handleForm} name="titulo" isInvalid={conflictError(statusCriarProva, errorCriarProva)} type="text" required placeholder="Digite o título da prova" />
+            <Form.Control.Feedback type="invalid">
+              Já existe uma prova com esse título
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="disciplina">
