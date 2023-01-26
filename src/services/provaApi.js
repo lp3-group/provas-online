@@ -14,3 +14,13 @@ export async function criarProva({
 
   return { data, status };
 }
+
+export async function pegarProvas({ token }) {
+  const { data, status } = await api.get('/provas', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
