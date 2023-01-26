@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import UsuarioContext from "../../../contexts/UsuarioContext";
 import usePegarDisciplinas from "../../../hooks/api/usePegarDisciplinas";
 import httpStatus from '../../../utils/httpStatus';
-import ProvaFormGroup from "./ProvaFormGroup";
+import QuestaoFormGroup from "./QuestaoFormGroup";
 import QuestionContext from "../../../contexts/QuestionContext";
 import useCriarProva from "../../../hooks/api/useCriarProva";
 
@@ -69,7 +69,7 @@ function FormProva() {
   }
 
   function buildQuestionsFields() {
-    return (form.questoes || []).map((questao, index) => <ProvaFormGroup key={index} index={index} question={questao} />);
+    return (form.questoes || []).map((questao, index) => <QuestaoFormGroup key={index} index={index} question={questao} />);
   }
 
   function newQuestion() {
