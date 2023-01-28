@@ -32,7 +32,7 @@ function ModalProva({ show, onHide }) {
 
   function renderQuestionsAccordionItem(questions) {
     return questions.map((question, index) => (
-      <Accordion.Item eventKey={index}>
+      <Accordion.Item key={index} eventKey={index}>
         <Accordion.Header>Questão {index+1}</Accordion.Header>
         <Accordion.Body>
           <p>valor: {question.valor}</p>
@@ -49,7 +49,7 @@ function ModalProva({ show, onHide }) {
 
   function renderAlternativesAccordionItem(alternatives) {
     return alternatives.map((alternative, index) => (
-      <Accordion.Item eventKey={index}>
+      <Accordion.Item key={index} eventKey={index}>
         <Accordion.Header>Alternativa {index+1}</Accordion.Header>
         <Accordion.Body>
           <p>{alternative.texto}</p>
