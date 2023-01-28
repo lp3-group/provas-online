@@ -34,3 +34,13 @@ export async function excluirProva({ provaId, token }) {
 
   return { data, status };
 }
+
+export async function pegarProvaPeloId({ provaId, token }) {
+  const { data, status } = await api.get(`/provas/${provaId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
