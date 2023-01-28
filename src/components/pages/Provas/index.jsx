@@ -8,6 +8,7 @@ import usePegarProvas from '../../../hooks/api/usePegarProvas';
 import UsuarioContext from '../../../contexts/UsuarioContext';
 import httpStatus from '../../../utils/httpStatus';
 import ModalExcluir from './ModalExcluir';
+import ModalProva from './ModalProva';
 
 function Provas() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function Provas() {
   const { usuario } = useContext(UsuarioContext);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showModalProva, setShowModalProva] = useState(false);
 
   useEffect(() => {
     pegarProvas({ token: usuario.token });
@@ -31,6 +33,11 @@ function Provas() {
   function excluirProva(provaId) {
     navigate('/provas?excluir=' + provaId);
     setShowDeleteModal(true);
+  }
+
+  function showProva(provaId) {
+    navigate(`/provas?verProva=${provaId}`);
+    setShowModalProva(true);
   }
 
   return (
@@ -65,7 +72,7 @@ function Provas() {
                   <td className='col-sm-2 text-center'>{dayjs(prova.criadaEm).format('DD/MM/YYYY')}</td>
                   <td className='col-sm-2 text-center'>{prova.disciplina.nome}</td>
                   <td className='col-sm-3 text-center'>
-                    <Button variant="primary">Ver</Button>
+                    <Button variant="primary" onClick={() => showProva(prova.id)}>Ver</Button>
                     <Button variant="danger" className="ms-2" onClick={() => excluirProva(prova.id)}>Excluir</Button>
                   </td>
                 </tr>
@@ -82,6 +89,8 @@ function Provas() {
       </Container>
 
       <ModalExcluir pegarProvas={pegarProvas} show={showDeleteModal} onHide={() => setShowDeleteModal(false)} />
+
+      <ModalProva show={showModalProva} onHide={() => setShowModalProva(false)} />
     </>  
   );
 }
