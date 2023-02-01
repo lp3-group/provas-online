@@ -65,9 +65,6 @@ function OpcoesCabecalhoAdministrador() {
       <Nav.Link>
         <LinkEstilizado to="/estudantes">Estudantes</LinkEstilizado>
       </Nav.Link>
-      <Nav.Link>
-        <LinkEstilizado to="/administradores">Administradores</LinkEstilizado>
-      </Nav.Link>
     </>
   );
 }
