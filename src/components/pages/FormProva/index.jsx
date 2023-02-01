@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Accordion, Button, Container, Form } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from 'styled-components';
 import UsuarioContext from "../../../contexts/UsuarioContext";
 import usePegarDisciplinas from "../../../hooks/api/usePegarDisciplinas";
@@ -8,14 +8,21 @@ import httpStatus from '../../../utils/httpStatus';
 import QuestaoFormGroup from "./QuestaoFormGroup";
 import QuestionContext from "../../../contexts/QuestionContext";
 import useCriarProva from "../../../hooks/api/useCriarProva";
+import usePegarProva from "../../../hooks/api/usePegarProva";
+import useEditarProva from "../../../hooks/api/useEditarProva";
 
 function FormProva() {
   const {state} = useLocation();
   const navigate = useNavigate();
+  const { provaId } = useParams();
 
   const { error, pegarDisciplinas, result, status } = usePegarDisciplinas();
 
-  const { error: errorCriarProva, criarProva, result: resultCriarProva, status: statusCriarProva } = useCriarProva();
+  const { error: errorCriarProva, criarProva, status: statusCriarProva } = useCriarProva();
+
+  const { error: errorPegarProva, pegarProvaPeloId, result: resultPegarProva, status: statusPegarProva } = usePegarProva();
+
+  const { error: errorEditarProva, editarProva, status: statusEditarProva } = useEditarProva();
 
   const { usuario } = useContext(UsuarioContext);
 
@@ -42,6 +49,10 @@ function FormProva() {
 
   useEffect(() => {
     pegarDisciplinas({ token: usuario.token });
+
+    if(!provaId) return;
+
+    pegarProvaPeloId({ token: usuario.token, provaId });
   }, []);
 
   useEffect(() => {
@@ -50,10 +61,22 @@ function FormProva() {
       navigate('/login');
     }
 
-    if(statusCriarProva === "success") {
+    if(statusCriarProva === "success" || statusEditarProva === "success") {
       navigate('/provas');
     }
-  }, [status, statusCriarProva]);
+
+    if(statusPegarProva === "success") {
+      handleSetForm(resultPegarProva.data);
+    }
+  }, [status, statusCriarProva, statusPegarProva, statusEditarProva]);
+
+  function handleSetForm(data) {
+    data.idDisciplina = data.disciplina && data.disciplina.id;
+
+    delete data.disciplina;
+
+    setForm(data);
+  }
 
   function conflictError(status, err) {
     return status === "error" && err.response && err.response.status === httpStatus.CONFLICT;
@@ -115,7 +138,7 @@ function FormProva() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    criarProva({ ...form, token: usuario.token });
+    (provaId ? editarProva : criarProva)({ ...form, token: usuario.token, provaId });
   }
 
   function provaIsInvalid() {
@@ -135,9 +158,9 @@ function FormProva() {
         </TituloPaginaContainer>
 
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="titulo" hasValidation>
+          <Form.Group className="mb-3" controlId="titulo">
             <Form.Label>Título:</Form.Label>
-            <Form.Control value={form.titulo} onChange={handleForm} name="titulo" isInvalid={conflictError(statusCriarProva, errorCriarProva)} type="text" required placeholder="Digite o título da prova" />
+            <Form.Control value={form.titulo} onChange={handleForm} name="titulo" isInvalid={conflictError(statusCriarProva, errorCriarProva) || conflictError(statusEditarProva, errorEditarProva)} type="text" required placeholder="Digite o título da prova" />
             <Form.Control.Feedback type="invalid">
               Já existe uma prova com esse título
             </Form.Control.Feedback>
