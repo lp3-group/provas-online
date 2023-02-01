@@ -44,3 +44,13 @@ export async function pegarProvaPeloId({ provaId, token }) {
 
   return { data, status };
 }
+
+export async function editarProva({ provaId, token, titulo, idDisciplina, questoes }) {
+  const { data, status } = await api.put(`/provas/${provaId}`, { titulo, idDisciplina, questoes }, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
