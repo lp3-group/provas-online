@@ -1,9 +1,7 @@
-import Cabecalho from "../shared/Cabecalho";
+import { Navigate } from "react-router-dom";
 
 function Inicial() {
-  return (
-    <span>teste</span>
-  );
+  return <Navigate to="/disciplinas" />
 }
 
 export default Inicial;
