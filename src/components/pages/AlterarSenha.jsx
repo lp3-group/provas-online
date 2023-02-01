@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -6,11 +6,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import transformFormToObject from '../../utils/transformFormToObject';
 import Container from '../layout/Container';
 import useAlterarSenha from '../../hooks/api/useAlterarSenha';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import UsuarioContext from '../../contexts/UsuarioContext';
 
 function AlterarSenhaForm() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const formEl = useRef();
 
@@ -18,13 +17,11 @@ function AlterarSenhaForm() {
 
   const { alterarSenha, error, result, status } = useAlterarSenha();
 
-  const [usuario] = useLocalStorage('usuario', null);
+  const { usuario } = useContext(UsuarioContext);
 
   useEffect(() => {
     if (status === 'success') {
-      navigate('/', {
-        state: location.state
-      });
+      navigate('/login');
     }
   }, [status]);
 
@@ -37,7 +34,7 @@ function AlterarSenhaForm() {
       setSenhasInvalidas(true);
       return;
     }
-
+    
     alterarSenha({ ...dados, token: usuario.token });
   }
 
