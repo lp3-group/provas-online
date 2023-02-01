@@ -19,3 +19,13 @@ export async function criarUsuario({ token, matricula, nome, sobrenome, senha, n
 
   return { data, status };
 }
+
+export async function excluirUsuario({ token, usuarioId }) {
+  const { data, status } = await api.delete(`/usuarios/${usuarioId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
