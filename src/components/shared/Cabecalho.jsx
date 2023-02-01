@@ -1,14 +1,13 @@
 import { useContext, useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import UsuarioContext from '../../contexts/UsuarioContext';
 
 function Cabecalho() {
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const { usuario, setUsuario } = useContext(UsuarioContext);
+  const { usuario } = useContext(UsuarioContext);
 
   useEffect(() => {
     document.title = "Provas online";
@@ -23,11 +22,10 @@ function Cabecalho() {
   }
 
   function podeRenderizar() {
-    return ["/login", "/alterarSenha"].includes(location.pathname);
+    return !["/login", "/alterarSenha"].includes(location.pathname) && usuario;
   }
 
   return podeRenderizar() ?
-    null :
     (
       <Navbar bg="dark" variant="dark">
         <Container>
@@ -52,7 +50,7 @@ function Cabecalho() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    );
+    ) : null;
 }
 
 function OpcoesCabecalhoAdministrador() {
