@@ -29,6 +29,7 @@ function App() {
           <Route path='/disciplinas' element={<Disciplinas />} />
           <Route path='/provas' element={<Provas />} />
           <Route path='/provas/formulario' element={<FormProva />} />
+          <Route path='/provas/formulario/:provaId/editar' element={<FormProva />} />
         </Routes>
       </UsuarioContext.Provider>
     </BrowserRouter>
