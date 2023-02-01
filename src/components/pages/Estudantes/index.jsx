@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import UsuarioContext from "../../../contexts/UsuarioContext";
 import usePegarUsuarios from '../../../hooks/api/usePegarUsuarios';
 import httpStatus from "../../../utils/httpStatus";
+import ModalExcluirEstudante from "./ModalExcluirEstudante";
 import ModalFormEstudante from "./ModalFormEstudante";
 
 function Estudantes() {
@@ -15,6 +16,7 @@ function Estudantes() {
   const { usuario } = useContext(UsuarioContext);
 
   const [showEstudanteFormModal, setShowEstudanteFormModal] = useState(false);
+  const [showExcluirEstudanteModal, setShowExcluirEstudanteModal] = useState(false);
 
   useEffect(() => {
     pegarUsuarios({ token: usuario.token });
@@ -25,6 +27,11 @@ function Estudantes() {
       navigate('/login');
     }
   }, [status]);
+
+  function deleteUser(studentId) {
+    navigate(`/estudantes?excluirEstudante=${studentId}`);
+    setShowExcluirEstudanteModal(true);
+  }
 
   return (
     <>
@@ -61,7 +68,7 @@ function Estudantes() {
                     <td className='col-sm-2'>{estudante.nomeUsuario}</td>
                     <td className='col-sm-2'>{estudante.matricula}</td>
                     <td className='col-sm-2 text-center'>
-                      <Button variant="danger">Excluir</Button>
+                      <Button variant="danger" onClick={() => deleteUser(estudante.id)}>Excluir</Button>
                     </td>
                   </tr>
                 );
@@ -77,6 +84,8 @@ function Estudantes() {
       </Container>
 
       <ModalFormEstudante pegarUsuarios={pegarUsuarios} show={showEstudanteFormModal} onHide={() => setShowEstudanteFormModal(false)} modalTitle="Cadastrar estudante" />
+
+      <ModalExcluirEstudante pegarUsuarios={pegarUsuarios} show={showExcluirEstudanteModal} onHide={() => setShowExcluirEstudanteModal(false)} />
     </>
   )
 }
