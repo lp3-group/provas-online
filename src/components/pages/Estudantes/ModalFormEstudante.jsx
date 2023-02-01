@@ -25,7 +25,7 @@ function ModalFormEstudante({ show, onHide, modalTitle, pegarUsuarios }) {
     }
 
     if(status === "success") {
-      pegarUsuarios();
+      pegarUsuarios({ token: usuario.token });
       onHide();
     }
   }, [status]);
