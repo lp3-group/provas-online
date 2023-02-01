@@ -75,10 +75,6 @@ function LoginForm({ setErrorAlert }) {
 function Login() {
   const [errorAlert, setErrorAlert] = useState(null);
 
-  useEffect(() => {
-    document.title = 'Provas online - Login';
-  }, []);
-
   return (
     <Container>
       <Title>

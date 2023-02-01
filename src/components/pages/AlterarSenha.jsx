@@ -74,10 +74,6 @@ function AlterarSenhaForm() {
 }
 
 function AlterarSenha() {
-  useEffect(() => {
-    document.title = 'Provas online - Alterar senha ';
-  }, []);
-
   return (
     <Container>
       <Alert variant="info" className="col-sm-4">
