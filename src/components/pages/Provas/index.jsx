@@ -40,17 +40,23 @@ function Provas() {
     setShowModalProva(true);
   }
 
+  function isAdminUser() {
+    return usuario && usuario.tipoUsuario === "administrador";
+  }
+
   return (
     <>
       <Container>
         <TituloPaginaContainer>
           <h1>Provas</h1>
 
-          <div>
+          { isAdminUser() && 
+            <div>
               <Button onClick={() => navigate('/provas/formulario')}>
                 Cadastrar Prova
               </Button>
             </div>
+          }
         </TituloPaginaContainer>
 
         { result && result.data && result.data.length > 0 ? <Table size="sm" striped bordered hover>
@@ -72,8 +78,13 @@ function Provas() {
                   <td className='col-sm-2 text-center'>{dayjs(prova.criadaEm).format('DD/MM/YYYY')}</td>
                   <td className='col-sm-2 text-center'>{prova.disciplina.nome}</td>
                   <td className='col-sm-3 text-center'>
-                    <Button variant="primary" onClick={() => showProva(prova.id)}>Ver</Button>
-                    <Button variant="danger" className="ms-2" onClick={() => excluirProva(prova.id)}>Excluir</Button>
+                    { isAdminUser() ?
+                      <>
+                        <Button variant="primary" onClick={() => showProva(prova.id)}>Ver</Button>
+                        <Button variant="danger" className="ms-2" onClick={() => excluirProva(prova.id)}>Excluir</Button>
+                      </>
+                      : <Button variant="primary">Realizar</Button>
+                    }                    
                   </td>
                 </tr>
               );
@@ -88,9 +99,13 @@ function Provas() {
         </Table> : <h6>Nenhuma prova encontrada</h6>}
       </Container>
 
-      <ModalExcluir pegarProvas={pegarProvas} show={showDeleteModal} onHide={() => setShowDeleteModal(false)} />
+      { isAdminUser() &&
+        <>
+          <ModalExcluir pegarProvas={pegarProvas} show={showDeleteModal} onHide={() => setShowDeleteModal(false)} />
 
-      <ModalProva show={showModalProva} onHide={() => setShowModalProva(false)} />
+          <ModalProva show={showModalProva} onHide={() => setShowModalProva(false)} />
+        </>
+      }
     </>  
   );
 }
