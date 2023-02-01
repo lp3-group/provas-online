@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Accordion, Button, Modal } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UsuarioContext from "../../../contexts/UsuarioContext";
 import usePegarProva from '../../../hooks/api/usePegarProva';
 import httpStatus from "../../../utils/httpStatus";
@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 function ModalProva({ show, onHide }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { error, pegarProvaPeloId, result, status } = usePegarProva();
 
@@ -90,7 +91,7 @@ function ModalProva({ show, onHide }) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>Fechar</Button>
-        <Button variant="primary">
+        <Button variant="primary" onClick={() => navigate(`/provas/formulario/${result.data.id}/editar`)}>
           Editar
         </Button>
       </Modal.Footer>
