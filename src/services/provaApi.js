@@ -54,3 +54,23 @@ export async function editarProva({ provaId, token, titulo, idDisciplina, questo
 
   return { data, status };
 }
+
+export async function pegarProvaParaRealizar({ token, provaId }) {
+  const { data, status } = await api.get(`/provas/${provaId}/realizar`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}
+
+export async function realizarProva({ token, provaId, payload }) {
+  const { data, status } = await api.post(`/provas/${provaId}/realizar`, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return { data, status };
+}

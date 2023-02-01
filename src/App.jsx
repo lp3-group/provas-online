@@ -10,6 +10,7 @@ import UsuarioContext from './contexts/UsuarioContext';
 import useLocalStorage from './hooks/useLocalStorage';
 import FormProva from './components/pages/FormProva';
 import Estudantes from './components/pages/Estudantes';
+import RealizarProva from './components/pages/RealizarProva';
 
 function ProtectedRoutes({ user, redirectPath = '/login' }) {
   if(!user) {
@@ -42,6 +43,7 @@ function App() {
             <Route path='/provas/formulario' element={<FormProva />} />
             <Route path='/provas/formulario/:provaId/editar' element={<FormProva />} />
             <Route path='/estudantes' element={<Estudantes />} />
+            <Route path='/provas/:provaId/realizar' element={<RealizarProva />} />
           </Route>
         </Routes>
       </UsuarioContext.Provider>

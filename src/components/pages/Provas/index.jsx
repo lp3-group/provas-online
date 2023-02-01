@@ -83,7 +83,7 @@ function Provas() {
                         <Button variant="primary" onClick={() => showProva(prova.id)}>Ver</Button>
                         <Button variant="danger" className="ms-2" onClick={() => excluirProva(prova.id)}>Excluir</Button>
                       </>
-                      : <Button variant="primary">Realizar</Button>
+                      : <Button variant="primary" onClick={() => navigate(`/provas/${prova.id}/realizar`)}>Realizar</Button>
                     }                    
                   </td>
                 </tr>
